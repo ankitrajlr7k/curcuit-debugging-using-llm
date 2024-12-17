@@ -3,10 +3,12 @@ import { Layout, RequireAuth } from "./pages/layout/Layout";
 import Homepage from "./pages/homepage/Homepage";
 import Upload from "./pages/upload/Upload";
 import Login from "./pages/login/Login";
-
+import ChatApp from "./pages/debugg/ChatApp";
 import Debugg from "./pages/debugg/Debugg";
 import Profile from "./pages/profile/Profile";
 import ProfileUpdate from "./pages/profileUpdate/ProfileUpdate";
+import Signup from "./pages/signup/Signup";
+
 
 const App = () => {
   const router = createBrowserRouter([
@@ -28,7 +30,11 @@ const App = () => {
         },
         {
           path: "/debugg",
-          element: <Debugg />,
+          element: <ChatApp />,
+        },
+        {
+          path: "/register",
+          element: <Signup />,
         },
       ],
     },
@@ -42,7 +48,7 @@ const App = () => {
         },
         {
           path: "/debugg",
-          element: <Debugg />,
+          element: <ChatApp />,
         },
         {
           path: "/profile",
@@ -52,6 +58,7 @@ const App = () => {
           path: "/profile/update",
           element: <ProfileUpdate />,
         },
+
       ],
     },
   ]);

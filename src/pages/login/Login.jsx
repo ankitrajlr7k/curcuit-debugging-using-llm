@@ -1,39 +1,42 @@
 import { useContext, useState } from "react";
 import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
-import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth"; // Import Firebase auth function
+import { auth } from "../../../firebase"; // Import auth instance from firebase.js
 
 const Login = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { updateUser } = useContext(AuthContext);
-
+  const { updateUser } = useContext(AuthContext); // Use context to update user data
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    const formadata = new FormData(e.target);
 
-    const username = formadata.get("username");
-    const password = formadata.get("password");
+    const formData = new FormData(e.target);
+    const username = formData.get("username");
+    const password = formData.get("password");
 
     try {
-      const res = await apiRequest.post("/auth/login", {
-        username,
-        password,
-      });
-      updateUser(res.data);
+      // Sign in with Firebase using email and password
+      const res = await signInWithEmailAndPassword(auth, username, password);
+
+      // Update the user in the context with the Firebase user data
+      updateUser(res.user);
+
+      // Redirect to home page after successful login
       navigate("/");
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.message); // Show Firebase error message
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="login">
       <div className="formContainer">
@@ -43,9 +46,9 @@ const Login = () => {
             name="username"
             required
             minLength={3}
-            maxLength={20}
-            type="text"
-            placeholder="Username"
+            maxLength={25}
+            type="email" // Updated to email since Firebase uses email for login
+            placeholder="Email"
           />
           <input
             name="password"
@@ -58,9 +61,7 @@ const Login = () => {
           <Link to="/register">{"Don't"} you have an account?</Link>
         </form>
       </div>
-      <div className="imgContainer">
-        <img src="/bg.png" alt="" />
-      </div>
+
     </div>
   );
 };
