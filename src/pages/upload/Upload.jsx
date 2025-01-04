@@ -240,7 +240,7 @@ User Question: ${userPrompt}`.trim();
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={inputEnabled ? "Ask about crop diseases..." : "Please confirm detection results..."}
+          placeholder={inputEnabled ? "Ask about cicruits..." : "Please confirm detection results..."}
           className="text-input"
           disabled={!inputEnabled}
           onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
